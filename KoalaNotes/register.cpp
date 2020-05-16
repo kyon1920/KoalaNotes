@@ -236,7 +236,7 @@ void Register::netLink()
     tSocket = nullptr;
     tSocket = new QTcpSocket(this);
     // 主动和服务器建立连接
-    tSocket -> connectToHost(QHostAddress(QString("106.12.68.247")), 9001);
+    tSocket -> connectToHost(QHostAddress(QString("xxx.xx.xx.xxx")), 9001);
     connect(tSocket, &QTcpSocket::connected,
            [=]()
                {

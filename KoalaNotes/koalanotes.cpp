@@ -1318,7 +1318,7 @@ void KoalaNotes::netLink()
     tSocket = nullptr;
     tSocket = new QTcpSocket(this);
     // 主动和服务器建立连接
-    tSocket -> connectToHost(QHostAddress(QString("106.12.68.247")), 9002);
+    tSocket -> connectToHost(QHostAddress(QString("xxx.xx.xx.xxx")), 9002);
     connect(tSocket, &QTcpSocket::connected,
            [=]()
                {

@@ -322,6 +322,8 @@ void KoalaNotes::initVar()
     a_click = 0;
     s_click = 0;
     bg_click = 0;
+    g_click = 0;
+    c_click = 0;
     pModel = new QStandardItemModel();
     pModel1 = new QStandardItemModel();
     pModel2 = new QStandardItemModel();
@@ -626,9 +628,15 @@ void KoalaNotes::on_M_follow_clicked()
         tSocket -> write(sendData1.toLatin1());
         tSocket -> write(sendData2.toLatin1());
         page2Content();
+
         ui -> p2_title -> hide();
         ui -> p2_title1 -> hide();
         ui -> p2_text -> hide();
+        ui -> p2_good -> hide();
+        ui -> p2_good1 -> hide();
+        ui -> p2_comment -> hide();
+        ui -> p2_widget -> hide();
+        c_click = 0;
     }
     else
         QMessageBox::information(this, tr("KoalaNotes"), QStringLiteral("未登陆或连接网络失败!"), QMessageBox::Ok);
@@ -911,6 +919,49 @@ void KoalaNotes::page2Content()
     ui -> p2_listnotes -> setStyleSheet(rollBar);
     ui -> p2_text -> setStyleSheet(rollBar);
 
+    ui -> p2_good -> setFlat(true);
+    QIcon icon;
+    icon.addFile(tr("../Icons/"
+                    ""
+                    ""
+                    ".png"));
+    ui -> p2_good -> setIconSize(QSize(40, 40));
+    ui -> p2_good -> setIcon(icon);
+
+    QString p2btnStyle =
+                "QPushButton{\
+                    color: rgb(0, 0, 255); \
+                    background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 rgb(200,200,200), stop:0.3 rgb(200,200,200), stop:1 rgb(200,200,200));\
+                    border:1px;\
+                    border-radius:2px; \
+                    padding:2px 4px;  \
+                }\
+                QPushButton:hover{\
+                    color: rgb(255, 255, 0); \
+                    background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 rgb(200,200,200), stop:0.3 rgb(200,200,200), stop:1 rgb(200,200,200));\
+                    border:1px;  \
+                    border-radius:2px; \
+                    padding:2px 4px; \
+                }\
+                QPushButton:pressed{    \
+                    color: rgb(0, 255, 0); \
+                    background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 rgb(200,200,200), stop:0.3 rgb(200,200,200), stop:1 rgb(200,200,200));  \
+                    border:1px;  \
+                    border-radius:2px; \
+                    padding:2px 4px; \
+                }";
+
+    ui -> p2_comment -> setStyleSheet(p2btnStyle);
+    icon.addFile(tr("../Icons/p2_comment.png"));
+    ui -> p2_comment -> setIconSize(QSize(20, 20));
+    ui -> p2_comment -> setIcon(icon);
+
+    ui -> p2_bg -> setPixmap(QPixmap("../images/comment_bg.jpg"));
+
+    ui -> comment_sure -> setStyleSheet(p2btnStyle);
+    ui -> comment_text -> setStyleSheet(rollBar);
+    ui -> comment_edit -> setStyleSheet(rollBar);
+
     a_click = 0;
     ui -> p2_addbg -> setPixmap(QPixmap("../images/addbg.jpg"));
 
@@ -1154,6 +1205,11 @@ void KoalaNotes::itemClicked2(const QModelIndex &index)
     ui -> M_zhuxiao -> hide();
     a_click = 0;
 
+    QIcon icon;
+    icon.addFile(tr("../Icons/p2_good.png"));
+    ui -> p2_good -> setIconSize(QSize(40, 40));
+    ui -> p2_good -> setIcon(icon);
+
     QVariant var = index.data(Qt::UserRole+1);
     MuItemData itemData = var.value<MuItemData>();
 
@@ -1171,6 +1227,12 @@ void KoalaNotes::itemClicked2(const QModelIndex &index)
         ui -> p2_title -> show();
         ui -> p2_title1 -> show();
         ui -> p2_text -> show();
+        ui -> p2_good -> show();
+        ui -> p2_good1 -> show();
+        ui -> p2_comment -> show();
+        QString no1 = clickUsername + "：欢迎大家来评论~";
+        ui -> comment_text -> setText(no1);
+        ui -> comment_text -> append("Koala123：真心不错的文章");
 
         ui -> p2_title -> setText(p2_title);
         QString sendData2 = "6|" + clickUsername + "|" + p2_title + "|" + dates;
@@ -1610,4 +1672,39 @@ void KoalaNotes::on_M_account_clicked()
 {
     if(netlink == true)
         on_M_account1_clicked();
+}
+
+void KoalaNotes::on_p2_good_clicked()
+{
+    ui -> p2_good -> setFlat(true);
+    QIcon icon;
+    icon.addFile(tr("../Icons/p2_good1.png"));
+    ui -> p2_good -> setIconSize(QSize(40, 40));
+    ui -> p2_good -> setIcon(icon);
+    QString god = ui -> p2_good1 -> text();
+    unsigned int good = god.toUInt();
+    good++;
+    ui -> p2_good1 -> setText(QString::number(good));
+}
+
+void KoalaNotes::on_p2_comment_clicked()
+{
+    if(c_click %2 == 0)
+    {
+        ui -> p2_widget -> show();
+        c_click++;
+    }
+    else
+    {
+        ui -> p2_widget -> hide();
+        c_click++;
+    }
+}
+
+void KoalaNotes::on_comment_sure_clicked()
+{
+    QString edit = ui -> comment_edit -> toPlainText();
+    QString comment = mine.username + "：" + edit;
+    ui -> comment_text -> append(comment);
+    ui -> comment_edit -> clear();
 }

@@ -116,6 +116,12 @@ private slots:
 
     void on_M_account_clicked();
 
+    void on_p2_good_clicked();
+
+    void on_p2_comment_clicked();
+
+    void on_comment_sure_clicked();
+
 public slots:
     // 定义接收登陆窗口发来信号的槽函数
     void receive_from_signin(QString recv_msg);
@@ -141,6 +147,8 @@ private:
     int a_click;
     int bg_click;
     int s_click;
+    int g_click;
+    int c_click;
     QStandardItem *pItem;
     QStandardItemModel *pModel;
     QStandardItem *pItem1;

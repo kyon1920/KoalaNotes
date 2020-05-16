@@ -256,7 +256,7 @@ void Signin::netLink()
     tSocket = nullptr;
     tSocket = new QTcpSocket(this);
     // 主动和服务器建立连接
-    tSocket -> connectToHost(QHostAddress(QString("106.12.68.247")), 9000);
+    tSocket -> connectToHost(QHostAddress(QString("xxx.xx.xx.xxx")), 9000);
     connect(tSocket, &QTcpSocket::connected,
            [=]()
                {
