@@ -1,0 +1,22 @@
+#ifndef MUITEMDELEGATE_H
+#define MUITEMDELEGATE_H
+
+#include <QStyledItemDelegate>
+
+class MuItemDelegate : public QStyledItemDelegate
+{
+private:
+    int x;
+
+public:
+    MuItemDelegate(int x, QObject *parent = nullptr);
+
+    // painting
+    void paint(QPainter *painter,
+               const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE;
+
+    QSize sizeHint(const QStyleOptionViewItem &option,
+                   const QModelIndex &index) const Q_DECL_OVERRIDE;
+};
+
+#endif // MUITEMDELEGATE_H
